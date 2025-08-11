@@ -9,8 +9,13 @@ const hybridRoute = require("./routes/hybrid");
 const app = express();
 
 // ✅ Allow only your Vercel frontend in production
+const allowedOrigins = [
+  'https://decision-support-chi.vercel.app',
+  'http://localhost:5173'
+];
+
 app.use(cors({
-  origin: ['https://decision-support-chi.vercel.app/'],
+  origin: allowedOrigins,
   credentials: true
 }));
 
