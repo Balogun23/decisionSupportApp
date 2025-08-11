@@ -24,6 +24,12 @@ app.use("/metadata", metadataRoute);
 // Render will give a PORT via environment variable
 const PORT = process.env.PORT || 4000;
 
+
+app.get('/health', (req, res) => {
+  res.send('ok');
+});
+
+
 app.listen(PORT, () => {
   console.log(`Backend running at http://localhost:${PORT}`);
 });
