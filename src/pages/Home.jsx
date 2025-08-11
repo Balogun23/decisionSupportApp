@@ -124,6 +124,7 @@ const Home = () => {
             preferences={preferences}
             onResult={handleSingleRecommendation}
             disabled={!taxonomy || (mode === "expert" && !subtask)}
+            apiBase={API}
           />
           
           <button className="reset-btn" onClick={handleReset}>

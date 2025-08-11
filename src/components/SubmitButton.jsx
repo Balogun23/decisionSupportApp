@@ -1,7 +1,7 @@
 export default function SubmitButton({ taxonomy, subtask, preferences, onResult, disabled }) {
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://localhost:4000/recommend", {
+      const response = await fetch(`${apiBase}/recommend`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ taxonomy, subtask, preferences })
