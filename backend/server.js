@@ -10,7 +10,7 @@ const app = express();
 
 // ✅ Allow only your Vercel frontend in production
 app.use(cors({
-  origin: ['https://decision-support-44uhy8w1v-balos-projects-f2aa2e09.vercel.app'],
+  origin: ['https://decision-support-chi.vercel.app/'],
   credentials: true
 }));
 
