@@ -21,9 +21,12 @@ const Home = () => {
     memory: 50,
   });
 
+  // ✅ Base API URL from Vite environment variable
+  const API = import.meta.env.VITE_API_BASE_URL;
+
   // Fetch taxonomy/subtasks
   useEffect(() => {
-    fetch("http://localhost:4000/metadata/tasks")
+    fetch(`${API}/metadata/tasks`)
       .then((res) => res.json())
       .then((data) => {
         setTasks(data);
@@ -33,7 +36,7 @@ const Home = () => {
         setSubtask(firstSubtask);
       })
       .catch((err) => console.error("Error loading tasks:", err));
-  }, []);
+  }, [API]);
 
   // Reset selections
   const handleReset = () => {
@@ -46,15 +49,13 @@ const Home = () => {
     setIsModalOpen(false);
   };
 
-
   const handleSingleRecommendation = (result) => {
     setRecommendation(result);
     setIsModalOpen(true);
   };
 
-
-   const fetchHybrid = () => {
-    fetch("http://localhost:4000/recommend/hybrid", {
+  const fetchHybrid = () => {
+    fetch(`${API}/recommend/hybrid`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ taxonomy, preferences }),
@@ -63,7 +64,6 @@ const Home = () => {
       .then((data) => setHybridFlow(data))
       .catch((err) => console.error("Error fetching hybrid workflow:", err));
   };
-
 
   return (
     <div className="home-container">
@@ -121,7 +121,6 @@ const Home = () => {
           <SubmitButton
             taxonomy={taxonomy}
             subtask={mode === "expert" ? subtask : null}
-            // onClick={fetchRecommendations}
             preferences={preferences}
             onResult={handleSingleRecommendation}
             disabled={!taxonomy || (mode === "expert" && !subtask)}
@@ -136,12 +135,10 @@ const Home = () => {
         <div className="side-box">
           <KnowledgeTips />
         </div>
-
       </div>
 
       {/* Modal for Recommendations */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        
         <Tabs
           singleToolData={recommendation}
           hybridData={hybridFlow}
@@ -151,9 +148,6 @@ const Home = () => {
           metrics={preferences}
         />
       </Modal>
-
-
-      
     </div>
   );
 };
