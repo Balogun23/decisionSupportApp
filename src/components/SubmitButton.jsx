@@ -1,4 +1,4 @@
-export default function SubmitButton({ taxonomy, subtask, preferences, onResult, disabled }) {
+export default function SubmitButton({ taxonomy, subtask, preferences, onResult, disabled, apiBase }) {
   const handleSubmit = async () => {
     try {
       const response = await fetch(`${apiBase}/recommend`, {
