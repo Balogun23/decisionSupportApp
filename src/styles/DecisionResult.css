@@ -1,0 +1,31 @@
+.decision-result {
+  margin-top: 2rem;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.decision-result h2 {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #2e7d32; /* Green tone for positive outcome */
+  margin-bottom: 1rem;
+}
+
+.decision-result p {
+  color: #555555;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.decision-result ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  color: #333333;
+}
+
+.decision-result li {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
