@@ -10,7 +10,7 @@ const app = express();
 
 // ✅ Allow only your Vercel frontend in production
 const allowedOrigins = [
-  'https://decision-support-chi.vercel.app',
+  'https://decision-support-app-6arw.vercel.app',
   'http://localhost:5173'
 ];
 
