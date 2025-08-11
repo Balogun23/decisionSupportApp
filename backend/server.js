@@ -9,15 +9,21 @@ const hybridRoute = require("./routes/hybrid");
 const app = express();
 
 // ✅ Allow only your Vercel frontend in production
-const allowedOrigins = [
+
+const allowed = new Set([
   'https://decision-support-app-6arw.vercel.app',
   'http://localhost:5173'
-];
+]);
 
 app.use(cors({
-  origin: allowedOrigins,
+  origin: (origin, cb) => {
+    if (!origin || allowed.has(origin)) return cb(null, true);
+    cb(new Error('Not allowed by CORS: ' + origin));
+  },
   credentials: true
 }));
+
+app.options('*', cors()); // handle preflight
 
 app.use(express.json());
 
