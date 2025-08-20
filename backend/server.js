@@ -23,42 +23,74 @@
 const express = require("express");
 const cors = require("cors");
 
-// Import routes
+// -------------------- ROUTES -------------------- //
 const recommendRoute = require("./routes/recommend"); // Single + Hybrid recommendation
-const metadataRoute = require("./routes/metadata");   // Taxonomy/subtask metadata
-const hybridRoute = require("./routes/hybrid");       // Legacy/separate hybrid workflow
+const metadataRoute  = require("./routes/metadata");  // Taxonomy/subtask metadata
+const hybridRoute    = require("./routes/hybrid");    // Legacy/separate hybrid workflow
 
 const app = express();
 
-// ✅ CORS configuration: allow only trusted frontend URLs
-const allowedOrigins = [
-  
-  'https://decision-support-app-o7ck.vercel.app/', // Production (Vercel)
-  'http://localhost:5173'                    // Development (Vite local server)
-];
+/* -------------------- CORS -------------------- */
+/**
+ * IMPORTANT: update PROD_ORIGIN if your Vercel URL changes.
+ * No trailing slash. Origin header never contains it.
+ */
+const PROD_ORIGIN   = "https://decision-support-app-o7ck.vercel.app";
+const vercelPreview = /^https:\/\/[a-z0-9-]+\.vercel\.app$/i;
 
-app.use(cors({
-  origin: allowedOrigins,
-  credentials: true
-}));
-
-// Middleware: Parse JSON request bodies
-app.use(express.json());
-
-// === API Routes ===
-app.use("/recommend/hybrid", hybridRoute); // hybrid workflow (separate route file)
-app.use("/recommend", recommendRoute);     // main recommendation logic
-app.use("/metadata", metadataRoute);       // taxonomy + subtask metadata
-
-// === Health check route ===
-app.get('/health', (req, res) => {
-  res.send('ok'); // Used by Render or monitoring systems to confirm uptime
+app.use((req, _res, next) => {
+  // Helpful for debugging cross-origin calls in Render logs
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path} | Origin: ${req.headers.origin || "n/a"}`);
+  next();
 });
 
-// === Start Server ===
-// Render injects PORT via environment variable
-const PORT = process.env.PORT || 4000;
+app.use(cors({
+  origin(origin, cb) {
+    // Allow server-to-server / health checks with no Origin
+    if (!origin) return cb(null, true);
 
+    // Allow localhost for dev, the exact prod Vercel origin, and any Vercel preview
+    if (
+      origin === "http://localhost:5173" ||
+      origin === PROD_ORIGIN ||
+      vercelPreview.test(origin)
+    ) {
+      return cb(null, true);
+    }
+
+    // Block anything else
+    return cb(new Error(`CORS blocked for origin: ${origin}`));
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
+// Preflight for all routes
+app.options("*", cors());
+
+/* ----------------- MIDDLEWARE ----------------- */
+app.use(express.json()); // Parse JSON bodies
+
+/* --------------------- API -------------------- */
+app.use("/recommend/hybrid", hybridRoute);     // Legacy/separate hybrid workflow
+app.use("/recommend",       recommendRoute);   // Main recommendation logic
+app.use("/metadata",        metadataRoute);    // Taxonomy + subtask metadata
+
+/* ------------------ HEALTHCHECK ---------------- */
+app.get("/health", (_req, res) => res.send("ok"));
+
+/* --------------- ERROR HANDLING --------------- */
+// CORS/other thrown errors surface cleanly
+// (Keep this AFTER routes/middleware)
+app.use((err, _req, res, _next) => {
+  console.error("Error:", err.message);
+  const status = err.message?.startsWith("CORS blocked") ? 403 : 500;
+  res.status(status).json({ ok: false, error: err.message });
+});
+
+/* ------------------- SERVER ------------------- */
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
-  console.log(`✅ Backend running at http://localhost:${PORT}`);
+  console.log(`✅ Backend listening on port ${PORT}`);
 });
