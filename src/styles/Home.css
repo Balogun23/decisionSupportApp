@@ -1,0 +1,161 @@
+/* === Home (refined) === */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #ffffff;
+  border: 1px solid rgba(15,23,42,.10);
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(2,6,23,.08);
+  box-sizing: border-box;
+}
+
+.home-container > * {
+  margin-bottom: 1.25rem;
+  width: 100%;
+}
+
+/* Title with subtle accent bar */
+.home-container h1 {
+  text-align: center;
+  font-size: 2rem;
+  color: #0b2447;
+  font-weight: 800;
+  margin: 0 0 1.5rem;
+  position: relative;
+}
+
+.home-container h1::after {
+  content: "";
+  display: block;
+  width: 72px;
+  height: 3px;
+  margin: .6rem auto 0;
+  border-radius: 999px;
+  background: #1e66ff;
+  opacity: .85;
+}
+
+/* Buttons */
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: .875rem;
+  flex-wrap: wrap;
+}
+
+.button-group button {
+  padding: .75rem 1.25rem;
+  border-radius: 10px;
+  border: 1px solid rgba(15,23,42,.10);
+  background: #0b5ebf;          /* primary */
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .06s ease, box-shadow .2s ease, background .2s ease;
+  box-shadow: 0 6px 18px rgba(11,94,191,.18);
+}
+
+.button-group button:hover { background: #0a53a1; }
+.button-group button:active { transform: translateY(1px); }
+.button-group button:focus-visible {
+  outline: 3px solid rgba(30,102,255,.35);
+  outline-offset: 2px;
+}
+
+/* Reset button (secondary) */
+.reset-btn {
+  margin-top: 0;
+  margin-left: 0.5rem;
+  padding: .75rem 1.5rem;
+  background: #dc3545;
+  color: #fff;
+  font-size: .95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform .06s ease, background .2s ease, box-shadow .2s ease;
+  box-shadow: 0 6px 18px rgba(220,53,69,.18);
+}
+
+.reset-btn:hover { background: #b02a37; }
+.reset-btn:active { transform: translateY(1px); }
+.reset-btn:focus-visible {
+  outline: 3px solid rgba(220,53,69,.35);
+  outline-offset: 2px;
+}
+
+/* Inputs inside the page (labels/selects look consistent) */
+.home-container label {
+  font-weight: 600;
+  color: #0b1220;
+}
+
+.home-container select {
+  width: 100%;
+  padding: .7rem .9rem;
+  border: 1px solid rgba(15,23,42,.14);
+  border-radius: 10px;
+  background: #fff;
+  transition: box-shadow .2s ease, border-color .2s ease;
+}
+
+.home-container select:focus {
+  border-color: #1e66ff;
+  box-shadow: 0 0 0 4px rgba(30,102,255,.15);
+  outline: none;
+}
+
+/* Result two-column layout */
+.result-layout {
+  display: flex;
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+.main-box { flex: 1 1 72%; }
+.side-box { flex: 0 0 28%; }
+
+/* Make side content look like a card and stay visible on desktop */
+.side-box > * {
+  background: #fbfdff;
+  border: 1px dashed rgba(15,23,42,.18);
+  border-radius: 12px;
+  padding: 1rem;
+}
+@media (min-width: 901px) {
+  .side-box { position: sticky; top: 88px; }
+}
+
+/* Range sliders inside the page (keeps your logic, nicer look) */
+.home-container input[type="range"]{
+  width: 100%;
+  appearance: none;
+  height: 6px;
+  border-radius: 4px;
+  background: #e5e7eb;
+}
+
+.home-container input[type="range"]::-webkit-slider-thumb{
+  appearance: none;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #1e66ff;
+  box-shadow: 0 0 0 4px rgba(30,102,255,.15);
+}
+
+.home-container input[type="range"]::-moz-range-thumb{
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #1e66ff; border: none;
+  box-shadow: 0 0 0 4px rgba(30,102,255,.15);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .home-container { padding: 1.25rem; }
+  .result-layout { flex-direction: column; }
+  .main-box, .side-box { flex: 1 1 100%; }
+}
