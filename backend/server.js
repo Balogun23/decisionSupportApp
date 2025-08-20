@@ -32,7 +32,8 @@ const app = express();
 
 // ✅ CORS configuration: allow only trusted frontend URLs
 const allowedOrigins = [
-  'https://decision-support-chi.vercel.app', // Production (Vercel)
+  
+  'https://decision-support-app-o7ck.vercel.app/', // Production (Vercel)
   'http://localhost:5173'                    // Development (Vite local server)
 ];
 
