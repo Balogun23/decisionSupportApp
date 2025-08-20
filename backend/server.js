@@ -23,7 +23,7 @@
 const express = require("express");
 const cors = require("cors");
 
-// -------------------- ROUTES -------------------- //
+// ---- ROUTES ----
 const recommendRoute = require("./routes/recommend"); // Single + Hybrid recommendation
 const metadataRoute  = require("./routes/metadata");  // Taxonomy/subtask metadata
 const hybridRoute    = require("./routes/hybrid");    // Legacy/separate hybrid workflow
@@ -31,7 +31,7 @@ const hybridRoute    = require("./routes/hybrid");    // Legacy/separate hybrid 
 const app = express();
 
 /* -------------------- CORS -------------------- */
-/**
+/** 
  * IMPORTANT: update PROD_ORIGIN if your Vercel URL changes.
  * No trailing slash. Origin header never contains it.
  */
@@ -39,7 +39,7 @@ const PROD_ORIGIN   = "https://decision-support-app-o7ck.vercel.app";
 const vercelPreview = /^https:\/\/[a-z0-9-]+\.vercel\.app$/i;
 
 app.use((req, _res, next) => {
-  // Helpful for debugging cross-origin calls in Render logs
+  // Helpful for debugging cross‑origin calls in Render logs
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.path} | Origin: ${req.headers.origin || "n/a"}`);
   next();
 });
@@ -73,14 +73,14 @@ app.options("*", cors());
 app.use(express.json()); // Parse JSON bodies
 
 /* --------------------- API -------------------- */
-app.use("/recommend/hybrid", hybridRoute);     // Legacy/separate hybrid workflow
-app.use("/recommend",       recommendRoute);   // Main recommendation logic
-app.use("/metadata",        metadataRoute);    // Taxonomy + subtask metadata
+app.use("/recommend/hybrid", hybridRoute);     // legacy/separate hybrid workflow
+app.use("/recommend",       recommendRoute);   // main recommendation logic
+app.use("/metadata",        metadataRoute);    // taxonomy + subtask metadata
 
-/* ------------------ HEALTHCHECK ---------------- */
+/* ------------------ HEALTHCHECK --------------- */
 app.get("/health", (_req, res) => res.send("ok"));
 
-/* --------------- ERROR HANDLING --------------- */
+/* ---------------- ERROR HANDLING -------------- */
 // CORS/other thrown errors surface cleanly
 // (Keep this AFTER routes/middleware)
 app.use((err, _req, res, _next) => {
