@@ -67,6 +67,41 @@ The system can also recommend hybrid workflows using multiple tools.
 
 ---
 
+## System Architecture
+
+The system follows a two-tier architecture:
+
+Frontend:
+- React + Vite interface
+- Interactive sliders and task selection
+- Displays recommendation results
+
+Backend:
+- Node.js and Express API
+- Decision engine evaluating benchmark data
+- Generates tool recommendation
+
+This architecture separates user interaction from decision logic,
+improving scalability and maintainability.
+
+## Interface Preview
+
+### Task Taxonomy Selection
+
+![Taxonomy](assets/images/taxonomy-selection.jpeg)
+
+### Subtask Selection (Expert Mode)
+
+![Subtask](assets/images/subtask-selection.jpeg)
+
+### Slider Preference Control
+
+![Sliders](assets/images/slider-interface.png)
+
+### Recommendation Card
+
+![Recommendation](assets/images/recommendation-card.jpeg)
+
 ## Running the Project Locally
 
 Clone repository:
